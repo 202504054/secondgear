@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "crawl:market": "node scripts/crawl-market-listings.mjs",
+    "generate:slides": "node scripts/generate-presentation.mjs",
     "migrate:supabase": "node scripts/migrate-to-supabase.mjs"
   },
   "dependencies": {
@@ -15,6 +16,7 @@
     "cheerio": "^1.2.0",
     "groq-sdk": "^1.1.2",
     "next": "16.2.2",
+    "pptxgenjs": "^4.0.1",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
