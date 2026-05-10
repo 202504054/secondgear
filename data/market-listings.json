@@ -1,0 +1,80 @@
+[
+  {
+    "title": "i5-12400F + RTX 3060 게이밍 본체",
+    "category": "gaming",
+    "purpose": "recommendation",
+    "cpu": "Intel Core i5-12400F",
+    "gpu": "NVIDIA RTX 3060 12GB",
+    "ram": "DDR4 16GB",
+    "storage": "NVMe SSD 1TB",
+    "price": 780000,
+    "condition": "생활기스 소량, 정비 완료",
+    "source": "sample-import",
+    "scrapedAt": "2026-05-10"
+  },
+  {
+    "title": "Ryzen 5 5600 / RX 6600 사무겸용 본체",
+    "category": "office",
+    "purpose": "recommendation",
+    "cpu": "AMD Ryzen 5 5600",
+    "gpu": "AMD RX 6600",
+    "ram": "DDR4 16GB",
+    "storage": "SSD 500GB",
+    "price": 650000,
+    "condition": "무상 보증 종료, 채굴 이력 없음",
+    "source": "sample-import",
+    "scrapedAt": "2026-05-10"
+  },
+  {
+    "title": "i7-12700F + RTX 4070 편집용 본체",
+    "category": "editing",
+    "purpose": "recommendation",
+    "cpu": "Intel Core i7-12700F",
+    "gpu": "NVIDIA RTX 4070",
+    "ram": "DDR5 32GB",
+    "storage": "NVMe SSD 2TB",
+    "price": 1450000,
+    "condition": "상태 우수, 박스 보유",
+    "source": "sample-import",
+    "scrapedAt": "2026-05-10"
+  },
+  {
+    "title": "게이밍 중고 본체 i5-11400F / RTX 3060 Ti",
+    "category": "gaming",
+    "purpose": "valuation",
+    "cpu": "Intel Core i5-11400F",
+    "gpu": "NVIDIA RTX 3060 Ti",
+    "ram": "DDR4 16GB",
+    "storage": "SSD 1TB",
+    "price": 620000,
+    "condition": "생활기스, 쿨러 교체",
+    "source": "sample-import",
+    "scrapedAt": "2026-05-10"
+  },
+  {
+    "title": "사무용 본체 Ryzen 5 5600G",
+    "category": "office",
+    "purpose": "valuation",
+    "cpu": "AMD Ryzen 5 5600G",
+    "gpu": "내장 그래픽",
+    "ram": "DDR4 16GB",
+    "storage": "SSD 500GB",
+    "price": 390000,
+    "condition": "거의 미사용, 업그레이드 가능",
+    "source": "sample-import",
+    "scrapedAt": "2026-05-10"
+  },
+  {
+    "title": "편집용 본체 i7-12700 / RTX 3070",
+    "category": "editing",
+    "purpose": "valuation",
+    "cpu": "Intel Core i7-12700",
+    "gpu": "NVIDIA RTX 3070",
+    "ram": "DDR4 32GB",
+    "storage": "NVMe SSD 1TB",
+    "price": 980000,
+    "condition": "정품 박스 보유, 조용한 쿨링",
+    "source": "sample-import",
+    "scrapedAt": "2026-05-10"
+  }
+]
