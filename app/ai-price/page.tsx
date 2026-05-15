@@ -53,7 +53,7 @@ export default function AiPricePage() {
   const [components, setComponents] = useState("RTX 3060, i5-12400F, RAM 16GB, SSD 1TB");
   const [conditionGrade, setConditionGrade] = useState("중고");
   const [conditionNote, setConditionNote] = useState("생활 기스 소량, 채굴 이력 없음");
-  const [usageYears, setUsageYears] = useState(2);
+  const [usageYears, setUsageYears] = useState("2");
   const [valuation, setValuation] = useState<ValuationResult | string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -64,6 +64,13 @@ export default function AiPricePage() {
     setValuation(null);
     setLoading(true);
 
+    const numericUsageYears = Number(usageYears);
+    if (Number.isNaN(numericUsageYears)) {
+      setError("사용 연수를 올바르게 입력해 주세요.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch("/api/valuation", {
         method: "POST",
@@ -72,7 +79,7 @@ export default function AiPricePage() {
           purpose,
           components,
           conditionNote: `${conditionGrade}${conditionNote ? ` / ${conditionNote}` : ""}`,
-          usageYears,
+          usageYears: numericUsageYears,
         }),
       });
 
@@ -155,7 +162,7 @@ export default function AiPricePage() {
                   min={0}
                   max={15}
                   value={usageYears}
-                  onChange={(event) => setUsageYears(Number(event.target.value))}
+                  onChange={(event) => setUsageYears(event.target.value)}
                   className="mt-1.5 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm font-medium outline-none hover:border-neutral-400"
                 />
               </label>
