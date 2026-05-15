@@ -3,6 +3,8 @@
 SecondGear는 AI 기반 맞춤형 중고 컴퓨터 추천/시세 분석 플랫폼입니다.
 구매자는 예산과 목적에 맞는 추천을 받고, 판매자는 구성/상태 기반 적정 판매가를 확인할 수 있습니다.
 
+Live Demo: https://secondgear-gilt.vercel.app/
+
 ## Tech Stack
 
 - Next.js (App Router)
