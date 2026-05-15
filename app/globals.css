@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f4ee;
-  --foreground: #1f1d17;
-  --surface: #fffdf8;
-  --accent: #b8471f;
-  --accent-soft: #f9e4d9;
+  --background: #f4f4f5;
+  --foreground: #171717;
+  --surface: #ffffff;
+  --accent: #262626;
+  --accent-soft: #f4f4f5;
 }
 
 @theme inline {
@@ -17,28 +17,58 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #f6f4ee;
-    --foreground: #1f1d17;
+    --background: #f4f4f5;
+    --foreground: #171717;
   }
 }
 
 body {
   margin: 0;
+  min-height: 100dvh;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  font-size: 16px;
+}
+
+@media (min-width: 1280px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1536px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1920px) {
+  html {
+    font-size: 19px;
+  }
+}
+
+::selection {
+  background: #737373;
+  color: #ffffff;
+}
+
 .paper {
   background: var(--surface);
-  border: 1px solid #0000001a;
-  box-shadow: 0 14px 40px #7e64411a;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
 }
 
 .accent-gradient {
-  background: radial-gradient(circle at 20% 20%, #f4d6c5 0%, #f6f4ee 50%, #d7e2de 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f4f4f5 100%);
 }
