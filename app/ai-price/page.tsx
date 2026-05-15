@@ -98,25 +98,25 @@ export default function AiPricePage() {
 
   return (
     <main className="min-h-dvh bg-neutral-100 text-neutral-900">
-      <section className="mx-auto w-full max-w-7xl px-5 py-8 sm:px-8 sm:py-10 lg:max-w-[90rem] lg:px-10 xl:max-w-[100rem] xl:px-12 2xl:py-12">
+      <section className="mx-auto w-full max-w-5xl px-4 py-5 sm:px-6">
         <SiteNav />
-        <div className="grid gap-6 md:grid-cols-[1.25fr_0.75fr] md:items-start lg:gap-8 xl:gap-10">
-            <form onSubmit={handleValuationSubmit} className="flex flex-col gap-4 rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm sm:gap-5 sm:p-10 lg:gap-6 lg:p-12">
-              <label className="text-xl font-black sm:text-2xl lg:text-3xl">
+        <div className="grid gap-4 md:grid-cols-[1.2fr_0.8fr] md:items-start">
+            <form onSubmit={handleValuationSubmit} className="flex flex-col gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-5">
+              <label className="text-sm font-semibold text-neutral-800">
                 부품명
                 <input
                   value={components}
                   onChange={(event) => setComponents(event.target.value)}
-                  className="mt-3 w-full rounded-2xl border-2 border-neutral-200 bg-white px-5 py-4 text-lg font-bold outline-none shadow-sm hover:border-neutral-400 sm:py-4 sm:text-xl lg:text-2xl"
+                  className="mt-1.5 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm font-medium outline-none hover:border-neutral-400"
                 />
               </label>
 
-              <label className="text-xl font-black sm:text-2xl lg:text-3xl">
+              <label className="text-sm font-semibold text-neutral-800">
                 카테고리
                 <select
                   value={purpose}
                   onChange={(event) => setPurpose(event.target.value)}
-                  className="mt-3 w-full rounded-2xl border-2 border-neutral-200 bg-white px-5 py-4 text-lg font-bold outline-none shadow-sm hover:border-neutral-400 sm:py-4 sm:text-xl lg:text-2xl"
+                  className="mt-1.5 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm font-medium outline-none hover:border-neutral-400"
                 >
                   {categoryOptions.map((item) => (
                     <option key={item.value} value={item.value}>
@@ -126,29 +126,29 @@ export default function AiPricePage() {
                 </select>
               </label>
 
-              <label className="text-xl font-black sm:text-2xl lg:text-3xl">
+              <label className="text-sm font-semibold text-neutral-800">
                 상태
                 <select
                   value={conditionGrade}
                   onChange={(event) => setConditionGrade(event.target.value)}
-                  className="mt-3 w-full rounded-2xl border-2 border-neutral-200 bg-white px-5 py-4 text-lg font-bold outline-none shadow-sm hover:border-neutral-400 sm:py-4 sm:text-xl lg:text-2xl"
+                  className="mt-1.5 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm font-medium outline-none hover:border-neutral-400"
                 >
                   <option value="신품">신품</option>
                   <option value="중고">중고</option>
                 </select>
               </label>
 
-              <label className="text-xl font-black sm:text-2xl lg:text-3xl">
+              <label className="text-sm font-semibold text-neutral-800">
                 상세 설명
                 <textarea
-                  rows={6}
+                  rows={4}
                   value={conditionNote}
                   onChange={(event) => setConditionNote(event.target.value)}
-                  className="mt-3 w-full rounded-2xl border-2 border-neutral-200 bg-white px-5 py-4 text-lg font-semibold outline-none shadow-sm hover:border-neutral-400 sm:py-4 sm:text-xl lg:text-2xl"
+                  className="mt-1.5 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm outline-none hover:border-neutral-400"
                 />
               </label>
 
-              <label className="text-xl font-black sm:text-2xl lg:text-3xl">
+              <label className="text-sm font-semibold text-neutral-800">
                 사용 연수
                 <input
                   type="number"
@@ -156,44 +156,44 @@ export default function AiPricePage() {
                   max={15}
                   value={usageYears}
                   onChange={(event) => setUsageYears(Number(event.target.value))}
-                  className="mt-3 w-full rounded-2xl border-2 border-neutral-200 bg-white px-5 py-4 text-lg font-bold outline-none shadow-sm hover:border-neutral-400 sm:py-4 sm:text-xl lg:text-2xl"
+                  className="mt-1.5 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm font-medium outline-none hover:border-neutral-400"
                 />
               </label>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-4 rounded-2xl bg-neutral-500 px-6 py-5 text-2xl font-black text-white shadow-md transition hover:bg-neutral-400 active:bg-neutral-600 disabled:opacity-60 sm:py-6 sm:text-3xl lg:text-4xl xl:py-7"
+                className="mt-2 rounded-lg bg-neutral-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-400 active:bg-neutral-600 disabled:opacity-60"
               >
                 {loading ? "분석 중..." : "AI 가격 제안"}
               </button>
 
               {error ? (
-                <p className="rounded-2xl bg-[#ffe4e1] px-5 py-4 text-base font-bold text-[#b42318] shadow-sm sm:text-lg lg:text-xl">
+                <p className="rounded-md bg-red-50 px-3 py-2 text-sm font-medium text-red-700">
                   {error}
                 </p>
               ) : null}
             </form>
 
-            <aside className="flex flex-col rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm sm:p-10 md:sticky md:top-6 md:max-h-[calc(100dvh-3rem)] md:overflow-y-auto lg:p-12">
-              <p className="text-center text-3xl font-black leading-tight text-neutral-800 sm:text-4xl lg:text-5xl">
+            <aside className="flex flex-col rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-5 md:sticky md:top-[4.5rem] md:max-h-[calc(100dvh-5rem)] md:overflow-y-auto">
+              <p className="text-center text-base font-semibold text-neutral-800">
                 AI 가격 제안
               </p>
-              <p className="mt-5 text-center text-5xl font-black text-neutral-900 sm:text-6xl lg:text-7xl">
+              <p className="mt-3 text-center text-2xl font-bold text-neutral-900 sm:text-3xl">
                 {valuation && typeof valuation !== "string" ? valuation.suggested_price : "—"}
               </p>
-              <p className="mt-4 text-center text-lg font-semibold leading-8 text-neutral-500 sm:text-xl sm:leading-9 lg:text-2xl">
+              <p className="mt-2 text-center text-xs text-neutral-500 sm:text-sm">
                 분석 후 제안가가 표시됩니다. 시장 데이터를 참고합니다.
               </p>
 
               {valuation && typeof valuation !== "string" ? (
-                <p className="mt-4 text-center text-lg font-bold text-neutral-800 sm:text-xl lg:text-2xl">범위: {valuation.price_range}</p>
+                <p className="mt-2 text-center text-sm font-medium text-neutral-800">범위: {valuation.price_range}</p>
               ) : null}
 
               {valuation && typeof valuation !== "string" ? (
-                <div className="mt-6 rounded-3xl border border-neutral-200 bg-neutral-50 p-6 shadow-sm sm:p-7 lg:p-8">
-                  <p className="text-xl font-black text-neutral-800 sm:text-2xl">추천 이유</p>
-                  <ul className="mt-4 list-disc space-y-3 pl-6 text-base font-semibold leading-7 text-neutral-700 sm:text-lg sm:leading-8">
+                <div className="mt-4 rounded-lg border border-neutral-200 bg-neutral-50 p-3">
+                  <p className="text-sm font-semibold text-neutral-800">추천 이유</p>
+                  <ul className="mt-2 list-disc space-y-1 pl-4 text-xs leading-5 text-neutral-700 sm:text-sm">
                     {valuation.reasoning.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
@@ -202,7 +202,7 @@ export default function AiPricePage() {
               ) : null}
 
               {valuation && typeof valuation === "string" ? (
-                <pre className="mt-4 max-h-40 overflow-auto whitespace-pre-wrap rounded-3xl border border-neutral-200 bg-neutral-50 p-5 text-base font-semibold text-neutral-800 shadow-sm sm:text-lg lg:text-xl">
+                <pre className="mt-3 max-h-32 overflow-auto whitespace-pre-wrap rounded-lg border border-neutral-200 bg-neutral-50 p-3 text-xs text-neutral-800 sm:text-sm">
                   {valuation}
                 </pre>
               ) : null}

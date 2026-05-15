@@ -29,14 +29,14 @@ function GearMark({ className }: { className?: string }) {
 
 export function AppHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/95 shadow-sm backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center px-5 sm:h-[4.25rem] sm:px-8 lg:max-w-[90rem] lg:px-10 xl:max-w-[100rem] xl:px-12 2xl:h-20">
+    <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/95 backdrop-blur-md">
+      <div className="mx-auto flex h-12 max-w-5xl items-center px-4 sm:px-6">
         <Link
           href="/recommend"
-          className="flex items-center gap-3 text-neutral-900 transition-opacity hover:opacity-70"
+          className="flex items-center gap-2 text-neutral-900 transition-opacity hover:opacity-70"
         >
-          <GearMark className="h-10 w-10 shrink-0 text-neutral-700 sm:h-11 sm:w-11 xl:h-12 xl:w-12" />
-          <span className="text-lg font-semibold tracking-[0.18em] text-neutral-600 uppercase sm:text-xl xl:text-2xl">
+          <GearMark className="h-7 w-7 shrink-0 text-neutral-700" />
+          <span className="text-sm font-semibold tracking-[0.14em] text-neutral-600 uppercase">
             SecondGear
           </span>
         </Link>
