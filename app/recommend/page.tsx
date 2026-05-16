@@ -351,7 +351,7 @@ export default function RecommendPage() {
                 {itemCards.map((item) => (
                   <div key={item.part} className="rounded-lg border border-neutral-200 bg-neutral-50 p-2.5 text-center">
                     <p className="text-xs font-semibold text-neutral-700">{item.part}</p>
-                    <p className="mt-1 truncate text-xs text-neutral-600">{item.name}</p>
+                    <p className="mt-1 text-xs text-neutral-600 break-words whitespace-normal">{item.name}</p>
                   </div>
                 ))}
               </div>
