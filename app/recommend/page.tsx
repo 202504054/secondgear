@@ -206,10 +206,10 @@ export default function RecommendPage() {
     }
 
     return [
-      { part: "CPU", name: result.build.cpu, price: result.expected_price },
-      { part: "GPU", name: result.build.gpu, price: result.expected_price },
-      { part: "RAM", name: result.build.ram, price: result.expected_price },
-      { part: "SSD", name: result.build.storage, price: result.expected_price },
+      { part: "CPU", name: result.build.cpu },
+      { part: "GPU", name: result.build.gpu },
+      { part: "RAM", name: result.build.ram },
+      { part: "SSD", name: result.build.storage },
     ];
   }, [result]);
 
@@ -320,15 +320,11 @@ export default function RecommendPage() {
         <div className="flex flex-col gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-5 lg:sticky lg:top-[4.5rem] lg:max-h-[calc(100dvh-5rem)] lg:overflow-y-auto">
           <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-3 text-center">
             <p className="text-sm font-semibold text-neutral-600">추천 PC 구성 및 요약</p>
-            {result && typeof result !== "string" ? (
-              <p className="mt-2 text-lg font-bold text-neutral-900">
-                최종 예상 가격: {result.expected_price}
-              </p>
-            ) : (
+            {!result || typeof result === "string" ? (
               <p className="mt-2 text-sm text-neutral-500">
                 예산과 용도를 선택한 뒤 「추천 받기」를 누르면 결과가 표시됩니다.
               </p>
-            )}
+            ) : null}
           </div>
 
           {loading && (
@@ -356,7 +352,6 @@ export default function RecommendPage() {
                   <div key={item.part} className="rounded-lg border border-neutral-200 bg-neutral-50 p-2.5 text-center">
                     <p className="text-xs font-semibold text-neutral-700">{item.part}</p>
                     <p className="mt-1 truncate text-xs text-neutral-600">{item.name}</p>
-                    <p className="mt-1 text-xs font-semibold text-neutral-900">{item.price}</p>
                   </div>
                 ))}
               </div>
