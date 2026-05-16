@@ -49,6 +49,8 @@ const BUDGET_MAX = 10_000_000;
 const BUDGET_STEP = 50_000;
 const BUDGET_TOO_LOW_MESSAGE = "예산은 30만 원 이상이어야 합니다. 다시 입력해 주세요.";
 
+const DEFAULT_REQUIREMENTS = "게임 위주, 144Hz 모니터 사용, 소음은 낮을수록 좋음";
+
 function formatWon(value: number) {
   return `W${new Intl.NumberFormat("ko-KR").format(value)}`;
 }
@@ -72,7 +74,7 @@ export default function RecommendPage() {
   const [budget, setBudget] = useState(1_500_000);
   const [budgetInput, setBudgetInput] = useState("1500000");
   const [budgetWarning, setBudgetWarning] = useState("");
-  const [requirements, setRequirements] = useState("게임 위주, 144Hz 모니터 사용, 소음은 낮을수록 좋음");
+  const [requirements, setRequirements] = useState(DEFAULT_REQUIREMENTS);
   const [result, setResult] = useState<RecommendationResult | string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -298,7 +300,9 @@ export default function RecommendPage() {
               rows={4}
               value={requirements}
               onChange={(event) => setRequirements(event.target.value)}
-              className="mt-1.5 min-h-[5.5rem] w-full resize-y rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm outline-none hover:border-neutral-400"
+              className={`mt-1.5 min-h-[5.5rem] w-full resize-y rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm outline-none hover:border-neutral-400 ${
+                requirements === DEFAULT_REQUIREMENTS ? "text-neutral-500" : "text-neutral-900"
+              }`}
             />
           </label>
 

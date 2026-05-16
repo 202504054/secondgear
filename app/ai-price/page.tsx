@@ -23,6 +23,8 @@ const categoryOptions: CategoryOption[] = [
   { value: "streaming", label: "방송 송출" },
 ];
 
+const DEFAULT_CONDITION_NOTE = "생활 기스 소량, 채굴 이력 없음";
+
 function isValuationResult(value: unknown): value is ValuationResult {
   if (!value || typeof value !== "object") {
     return false;
@@ -52,7 +54,7 @@ export default function AiPricePage() {
   const [purpose, setPurpose] = useState("gaming");
   const [components, setComponents] = useState("RTX 3060, i5-12400F, RAM 16GB, SSD 1TB");
   const [conditionGrade, setConditionGrade] = useState("중고");
-  const [conditionNote, setConditionNote] = useState("생활 기스 소량, 채굴 이력 없음");
+  const [conditionNote, setConditionNote] = useState(DEFAULT_CONDITION_NOTE);
   const [usageYears, setUsageYears] = useState("2");
   const [valuation, setValuation] = useState<ValuationResult | string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -151,7 +153,9 @@ export default function AiPricePage() {
                   rows={4}
                   value={conditionNote}
                   onChange={(event) => setConditionNote(event.target.value)}
-                  className="mt-1.5 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm outline-none hover:border-neutral-400"
+                  className={`mt-1.5 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm outline-none hover:border-neutral-400 ${
+                    conditionNote === DEFAULT_CONDITION_NOTE ? "text-neutral-500" : "text-neutral-900"
+                  }`}
                 />
               </label>
 
