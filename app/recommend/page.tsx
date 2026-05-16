@@ -19,6 +19,12 @@ type RecommendationResult = {
   expected_price: string;
   why: string[];
   checklist: string[];
+  build_prices?: {
+    cpu?: number | null;
+    gpu?: number | null;
+    ram?: number | null;
+    storage?: number | null;
+  };
 };
 
 function isRecommendationResult(value: unknown): value is RecommendationResult {
@@ -206,10 +212,10 @@ export default function RecommendPage() {
     }
 
     return [
-      { part: "CPU", name: result.build.cpu },
-      { part: "GPU", name: result.build.gpu },
-      { part: "RAM", name: result.build.ram },
-      { part: "SSD", name: result.build.storage },
+      { part: "CPU", name: result.build.cpu, price: result.build_prices?.cpu ?? null },
+      { part: "GPU", name: result.build.gpu, price: result.build_prices?.gpu ?? null },
+      { part: "RAM", name: result.build.ram, price: result.build_prices?.ram ?? null },
+      { part: "SSD", name: result.build.storage, price: result.build_prices?.storage ?? null },
     ];
   }, [result]);
 
@@ -347,17 +353,31 @@ export default function RecommendPage() {
 
           {result && typeof result !== "string" && !loading && (
             <div className="mt-3 space-y-2">
-              <div className="grid grid-cols-2 gap-2">
+              <div className="flex gap-2 overflow-x-auto py-1">
                 {itemCards.map((item) => (
-                  <div key={item.part} className="rounded-lg border border-neutral-200 bg-neutral-50 p-2.5 text-center">
+                  <div key={item.part} className="min-w-[10rem] flex-shrink-0 rounded-lg border border-neutral-200 bg-neutral-50 p-3 text-left">
                     <p className="text-xs font-semibold text-neutral-700">{item.part}</p>
-                    <p className="mt-1 text-xs text-neutral-600 break-words whitespace-normal">{item.name}</p>
+                    <p className="mt-1 text-sm text-neutral-600">{item.name}</p>
+                    <p className="mt-2 text-sm font-semibold text-neutral-900">
+                      {item.price ? formatWon(item.price) : "—"}
+                    </p>
                   </div>
                 ))}
               </div>
-              <div className="rounded-lg border border-neutral-200 bg-white p-2.5">
-                <p className="text-xs font-semibold text-neutral-600">추천 요약</p>
-                <p className="mt-1 text-xs leading-5 text-neutral-600">{result.summary}</p>
+              <div className="rounded-lg border border-neutral-200 bg-white p-3">
+                <p className="text-sm font-semibold text-neutral-600">추천 요약</p>
+                <p className="mt-2 text-sm leading-6 text-neutral-700">{result.summary}</p>
+
+                {result.why && result.why.length > 0 ? (
+                  <div className="mt-3">
+                    <p className="text-xs font-semibold text-neutral-600">선정 이유</p>
+                    <ul className="mt-2 list-disc pl-4 text-xs leading-5 text-neutral-700">
+                      {result.why.map((w) => (
+                        <li key={w}>{w}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
               </div>
             </div>
           )}

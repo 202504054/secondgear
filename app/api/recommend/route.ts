@@ -1,6 +1,6 @@
 import { createSupabaseAdminClient } from "../../../lib/supabase/admin";
 import { createChatCompletion } from "../../../lib/ai/groq";
-import { buildMarketContext, formatMarketContext } from "../../../lib/market-intel";
+import { buildMarketContext, formatMarketContext, buildPartMarketContext } from "../../../lib/market-intel";
 
 type RecommendationRequest = {
   budget: number;
@@ -112,6 +112,26 @@ ${formatMarketContext(marketContext)}
       }
     } else {
       console.warn("⚠️ Supabase admin client not initialized");
+    }
+
+    // If we have a parsed JSON result, enrich it with per-part price summaries
+    if (parsedResult) {
+      try {
+        const cpuCtx = await buildPartMarketContext({ query: parsedResult.build.cpu });
+        const gpuCtx = await buildPartMarketContext({ query: parsedResult.build.gpu });
+        const ramCtx = await buildPartMarketContext({ query: parsedResult.build.ram });
+        const storageCtx = await buildPartMarketContext({ query: parsedResult.build.storage });
+
+        // attach average prices (or null) to the result
+        (parsedResult as any).build_prices = {
+          cpu: cpuCtx.priceSummary.average,
+          gpu: gpuCtx.priceSummary.average,
+          ram: ramCtx.priceSummary.average,
+          storage: storageCtx.priceSummary.average,
+        };
+      } catch (err) {
+        console.warn("Could not enrich result with part prices:", err);
+      }
     }
 
     return Response.json({
