@@ -221,14 +221,13 @@ export default function RecommendPage() {
 
   return (
     <main className="min-h-dvh bg-neutral-100 text-neutral-900">
-      <section className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-4 px-4 py-5 sm:px-6 lg:grid-cols-2 lg:items-start">
-        <div className="col-span-full">
-          <SiteNav />
-        </div>
-        {/* 왼쪽: 입력 폼 */}
-        <div className="flex flex-col gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-5">
-          <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-3 sm:p-4">
-            <p className="text-sm font-semibold text-neutral-700">예산</p>
+      <section className="mx-auto w-full max-w-5xl px-4 py-5 sm:px-6">
+        <SiteNav />
+        <div className="grid gap-4 md:grid-cols-[1.2fr_0.8fr] md:items-start">
+          {/* 왼쪽: 입력 폼 */}
+          <div className="flex flex-col gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-5">
+            <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-3 sm:p-4">
+              <p className="text-sm font-semibold text-neutral-700">예산</p>
             <div className="mt-3">
               <input
                 type="range"
@@ -323,7 +322,7 @@ export default function RecommendPage() {
         </div>
 
         {/* 오른쪽: 결과 표시 */}
-        <div className="flex flex-col gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-5 lg:sticky lg:top-[4.5rem] lg:max-h-[calc(100dvh-5rem)] lg:overflow-y-auto">
+        <aside className="flex flex-col gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-5 md:sticky md:top-[4.5rem] md:max-h-[calc(100dvh-5rem)] md:overflow-y-auto">
           <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-3 text-center">
             <p className="text-sm font-semibold text-neutral-600">추천 PC 구성 및 요약</p>
             {!result || typeof result === "string" ? (
@@ -352,15 +351,22 @@ export default function RecommendPage() {
           ) : null}
 
           {result && typeof result !== "string" && !loading && (
-            <div className="mt-3 space-y-2">
-              <div className="flex gap-2 overflow-x-auto py-1">
+            <div className="mt-3 space-y-3">
+              <div className="rounded-lg border border-neutral-200 bg-neutral-900 p-4 text-center text-white">
+                <p className="text-xs font-medium text-neutral-400">예상 합계 금액</p>
+                <p className="mt-1 text-2xl font-bold">{result.expected_price}</p>
+              </div>
+
+              <div className="flex flex-col gap-2 py-1">
                 {itemCards.map((item) => (
-                  <div key={item.part} className="min-w-[10rem] flex-shrink-0 rounded-lg border border-neutral-200 bg-neutral-50 p-3 text-left">
-                    <p className="text-xs font-semibold text-neutral-700">{item.part}</p>
-                    <p className="mt-1 text-sm text-neutral-600">{item.name}</p>
-                    <p className="mt-2 text-sm font-semibold text-neutral-900">
-                      {item.price ? formatWon(item.price) : "—"}
-                    </p>
+                  <div key={item.part} className="flex flex-col gap-1 rounded-lg border border-neutral-200 bg-neutral-50 p-3 text-left">
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs font-semibold text-neutral-700">{item.part}</p>
+                      <p className="text-sm font-bold text-neutral-900">
+                        {item.price ? formatWon(item.price) : "—"}
+                      </p>
+                    </div>
+                    <p className="text-sm text-neutral-600">{item.name}</p>
                   </div>
                 ))}
               </div>
@@ -381,8 +387,9 @@ export default function RecommendPage() {
               </div>
             </div>
           )}
-        </div>
-      </section>
-    </main>
-  );
+        </aside>
+      </div>
+    </section>
+  </main>
+);
 }
