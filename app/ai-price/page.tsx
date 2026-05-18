@@ -153,6 +153,16 @@ export default function AiPricePage() {
                   rows={4}
                   value={conditionNote}
                   onChange={(event) => setConditionNote(event.target.value)}
+                  onFocus={() => {
+                    if (conditionNote === DEFAULT_CONDITION_NOTE) {
+                      setConditionNote("");
+                    }
+                  }}
+                  onBlur={() => {
+                    if (conditionNote.trim() === "") {
+                      setConditionNote(DEFAULT_CONDITION_NOTE);
+                    }
+                  }}
                   className={`mt-1.5 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm outline-none hover:border-neutral-400 ${
                     conditionNote === DEFAULT_CONDITION_NOTE ? "text-neutral-500" : "text-neutral-900"
                   }`}

@@ -305,6 +305,16 @@ export default function RecommendPage() {
               rows={4}
               value={requirements}
               onChange={(event) => setRequirements(event.target.value)}
+              onFocus={() => {
+                if (requirements === DEFAULT_REQUIREMENTS) {
+                  setRequirements("");
+                }
+              }}
+              onBlur={() => {
+                if (requirements.trim() === "") {
+                  setRequirements(DEFAULT_REQUIREMENTS);
+                }
+              }}
               className={`mt-1.5 min-h-[5.5rem] w-full resize-y rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm outline-none hover:border-neutral-400 ${
                 requirements === DEFAULT_REQUIREMENTS ? "text-neutral-500" : "text-neutral-900"
               }`}
