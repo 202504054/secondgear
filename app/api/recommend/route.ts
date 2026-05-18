@@ -59,16 +59,26 @@ export async function POST(req: Request) {
       budget,
     });
 
-    const resultText = await createChatCompletion([
-      {
-        role: "system",
-        content:
-          "너는 한국의 중고 PC 구매 컨설턴트다. 사용자의 예산과 요구사항, 그리고 실제 시장 데이터를 반영해 과하거나 부족하지 않은 현실적인 사양을 추천한다. 반드시 한국어로, JSON만 출력한다.",
-      },
-      {
-        role: "user",
-        content: `아래 사용자 요구를 바탕으로 중고 PC 추천안을 JSON으로 작성해줘.
-예산: ${budget}원
+    const finalBudget = budget;
+
+    let parsedResult: RecommendationResult | null = null;
+    let resultText = "";
+    let finalBuildPrices = null;
+    let attempts = 0;
+    const MAX_ATTEMPTS = 3;
+
+    while (attempts < MAX_ATTEMPTS) {
+      attempts++;
+      resultText = await createChatCompletion([
+        {
+          role: "system",
+          content:
+            "너는 한국의 중고 PC 구매 컨설턴트다. 사용자의 예산과 요구사항, 그리고 실제 시장 데이터를 반영해 과하거나 부족하지 않은 현실적인 사양을 추천한다. 반드시 한국어로, JSON만 출력한다.",
+        },
+        {
+          role: "user",
+          content: `아래 사용자 요구를 바탕으로 중고 PC 추천안을 JSON으로 작성해줘.
+예산: ${finalBudget}원 (오차 범위 ±10% 내외로 최대한 맞춰줘)
 용도: ${category}
 추가 요구사항: ${requirements || "없음"}
 
@@ -88,15 +98,50 @@ ${formatMarketContext(marketContext)}
   "why": string[],
   "checklist": string[]
 }`,
-      },
-    ]);
-    const cleanedResult = extractJsonContent(resultText);
-    let parsedResult: RecommendationResult | null = null;
+        },
+      ]);
 
-    try {
-      parsedResult = JSON.parse(cleanedResult) as RecommendationResult;
-    } catch {
-      parsedResult = null;
+      const cleanedResult = extractJsonContent(resultText);
+      try {
+        parsedResult = JSON.parse(cleanedResult) as RecommendationResult;
+      } catch {
+        parsedResult = null;
+        continue;
+      }
+
+      if (parsedResult) {
+        try {
+          const [cpuCtx, gpuCtx, ramCtx, storageCtx] = await Promise.all([
+            buildPartMarketContext({ query: parsedResult.build.cpu }),
+            buildPartMarketContext({ query: parsedResult.build.gpu }),
+            buildPartMarketContext({ query: parsedResult.build.ram }),
+            buildPartMarketContext({ query: parsedResult.build.storage }),
+          ]);
+
+          const totalPrice = 
+            (cpuCtx.priceSummary.average ?? 0) + 
+            (gpuCtx.priceSummary.average ?? 0) + 
+            (ramCtx.priceSummary.average ?? 0) + 
+            (storageCtx.priceSummary.average ?? 0);
+
+          // 만약 부품 가격 총합이 사용자 예산의 1.15배를 초과하거나 0.7배 미만이면 재시도 (현실성 검증)
+          if (totalPrice > finalBudget * 1.15 || (totalPrice > 0 && totalPrice < finalBudget * 0.7)) {
+            console.log(`⚠️ Attempt ${attempts}: Price mismatch (Total: ${totalPrice}, Budget: ${finalBudget}). Retrying...`);
+            continue;
+          }
+
+          finalBuildPrices = {
+            cpu: cpuCtx.priceSummary.average,
+            gpu: gpuCtx.priceSummary.average,
+            ram: ramCtx.priceSummary.average,
+            storage: storageCtx.priceSummary.average,
+          };
+          break; // 조건 충족 시 루프 종료
+        } catch (err) {
+          console.warn("Could not enrich result with part prices:", err);
+          break; // 에러 시 일단 중단
+        }
+      }
     }
 
     const supabase = createSupabaseAdminClient();
@@ -114,24 +159,9 @@ ${formatMarketContext(marketContext)}
       console.warn("⚠️ Supabase admin client not initialized");
     }
 
-    // If we have a parsed JSON result, enrich it with per-part price summaries
-    if (parsedResult) {
-      try {
-        const cpuCtx = await buildPartMarketContext({ query: parsedResult.build.cpu });
-        const gpuCtx = await buildPartMarketContext({ query: parsedResult.build.gpu });
-        const ramCtx = await buildPartMarketContext({ query: parsedResult.build.ram });
-        const storageCtx = await buildPartMarketContext({ query: parsedResult.build.storage });
-
-        // attach average prices (or null) to the result
-        (parsedResult as any).build_prices = {
-          cpu: cpuCtx.priceSummary.average,
-          gpu: gpuCtx.priceSummary.average,
-          ram: ramCtx.priceSummary.average,
-          storage: storageCtx.priceSummary.average,
-        };
-      } catch (err) {
-        console.warn("Could not enrich result with part prices:", err);
-      }
+    // If we have a parsed JSON result, attach the prices we found
+    if (parsedResult && finalBuildPrices) {
+      (parsedResult as any).build_prices = finalBuildPrices;
     }
 
     return Response.json({
